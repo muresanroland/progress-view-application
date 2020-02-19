@@ -1,16 +1,13 @@
-import { Button, Intent, Spinner } from '@blueprintjs/core';
 import ReactDOM from 'react-dom';
 import React from 'react';
 import './index.scss';
+import App from './App';
+import store from './store';
+import { Provider } from 'react-redux';
 
-function App() {
-  console.log(Intent);
-  return (
-    <div className="App">
-      <Button>Test</Button>
-      <Spinner intent={Intent.PRIMARY} />
-    </div>
-  );
-}
-
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+);

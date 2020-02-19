@@ -1,24 +1,27 @@
 import { ACTION_CONSTS } from '../constants';
+import User from '../interfaces/User.interface';
 
-let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+interface IState {
+  isLoggedIn: Boolean;
+  currentUser?: User;
+}
 
-const initialState = currentUser
-  ? {
-      isLoggedIn: true,
-      currentUser: currentUser
-    }
-  : {
-      isLoggedIn: false,
-      currentUser: {}
-    };
+const initialState = {
+  isLoggedIn: false
+};
 
-export default function(state = initialState, action) {
+interface Action {
+  type: string;
+  payload: User;
+}
+
+export default function(state: IState = initialState, action: Action) {
   switch (action.type) {
     case ACTION_CONSTS.loginSuccess: {
       return {
         ...state,
         isLoggedIn: true,
-        currentUser: action.user
+        currentUser: action.payload
       };
     }
     case ACTION_CONSTS.loginFailure:
