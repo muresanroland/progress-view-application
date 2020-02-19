@@ -1,6 +1,6 @@
 import { ACTION_CONSTS } from '../constants';
 
-let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
 
 const initialState = currentUser
   ? {
