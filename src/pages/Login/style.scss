@@ -14,8 +14,13 @@
     width: 80%;
     margin: 30px auto;
 
+    .form-error {
+      color: $red1;
+    }
+
     input {
       margin-bottom: 20px;
+      margin-top: 10px;
     }
 
     button {

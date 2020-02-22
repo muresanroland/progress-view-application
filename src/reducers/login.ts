@@ -1,15 +1,13 @@
 import User from '../types/User';
 import { LOGIN, LOGOUT, LoginActionTypes } from '../types/actions';
 
-// const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-
 const initialState = {
   isLoggedIn: false
 };
 
 interface returnValue {
   isLoggedIn: boolean;
-  currentUser?: User;
+  payload?: User;
 }
 
 const loginReducer = (
@@ -21,7 +19,7 @@ const loginReducer = (
       return {
         ...state,
         isLoggedIn: true,
-        currentUser: action.payload
+        payload: action.payload
       };
     }
     case LOGOUT: {

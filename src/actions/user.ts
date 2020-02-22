@@ -1,4 +1,9 @@
-import { LOGIN, LOGOUT, AppActionTypes } from '../types/actions';
+import {
+  LOGIN,
+  LOGOUT,
+  AppActionTypes,
+  VALIDATION_ERROR
+} from '../types/actions';
 import { startLoading, stopLoading } from './loading';
 import ApiService from '../services/apiService';
 import { AppState } from '../store/index';
@@ -14,6 +19,11 @@ export const logoutUser = (): AppActionTypes => ({
   type: LOGOUT
 });
 
+export const loginFail = (errorMessage: string): AppActionTypes => ({
+  type: VALIDATION_ERROR,
+  errorMessage
+});
+
 export const doLogin = (username: string) => {
   return (dispatch: Dispatch<AppActionTypes>, getState: () => AppState) => {
     dispatch(startLoading());
@@ -23,13 +33,13 @@ export const doLogin = (username: string) => {
           dispatch(loginUser(user));
           dispatch(stopLoading());
         } else {
-          // dispatch(failure());
-          // dispatch({ type: ACTION_CONSTS.stopLoading });
+          dispatch(loginFail('Username incorrect'));
+          dispatch(stopLoading());
         }
       })
       .catch(error => {
         console.log(error);
-        // dispatch(failure());
+        dispatch(loginFail('Something went wrong'));
         dispatch(stopLoading());
       });
   };

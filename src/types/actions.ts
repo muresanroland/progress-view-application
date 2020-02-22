@@ -20,6 +20,8 @@ export const UPDATE_STEPS = 'UPDATE_STEP';
 export const GET_TASKS = 'GET_TASKS';
 export const UPDATE_TASK = 'UPDATE_TASK';
 
+export const VALIDATION_ERROR = 'VALIDATION_ERROR';
+
 export interface LoginAction {
   type: typeof LOGIN;
   payload: User;
@@ -27,6 +29,11 @@ export interface LoginAction {
 
 export interface LogoutAction {
   type: typeof LOGOUT;
+}
+
+export interface ValidationError {
+  type: typeof VALIDATION_ERROR;
+  errorMessage: string;
 }
 
 export interface StartLoadingAction {
@@ -91,9 +98,12 @@ export type StepActionType = GetStepsAction | UpdateStepAction;
 
 export type TaskActionType = GetTasksAction | UpdateTask;
 
+export type ValidationErrorType = ValidationError;
+
 export type AppActionTypes =
   | LoginActionTypes
   | LoadingActionType
   | PipelineActionType
   | StepActionType
-  | TaskActionType;
+  | TaskActionType
+  | ValidationErrorType;

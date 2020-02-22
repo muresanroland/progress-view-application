@@ -1,4 +1,11 @@
-import { Button, Card, Elevation, InputGroup, Intent } from '@blueprintjs/core';
+import {
+  Button,
+  Card,
+  Elevation,
+  InputGroup,
+  Intent,
+  Label
+} from '@blueprintjs/core';
 import { AppActionTypes } from '../../types/actions';
 import React, { Component, FormEvent } from 'react';
 import { doLogin } from '../../actions/user';
@@ -12,6 +19,7 @@ import './style.scss';
 interface LoginProps {
   doLogin: (username: string) => void;
   isLoggedIn: boolean;
+  errorMessage?: string;
 }
 
 interface LoginState {
@@ -42,7 +50,7 @@ class Login extends Component<LoginProps, LoginState> {
 
   render() {
     const { username } = this.state;
-    const { isLoggedIn } = this.props;
+    const { isLoggedIn, errorMessage } = this.props;
     console.log(isLoggedIn);
     return (
       <>
@@ -55,8 +63,12 @@ class Login extends Component<LoginProps, LoginState> {
             className="login-form-container">
             <h2>Plase Login with your username</h2>
             <form onSubmit={this.handleSubmit} className="login-form">
+              {errorMessage && (
+                <span className="form-error">{errorMessage}</span>
+              )}
               <InputGroup
                 id="user-name"
+                className={errorMessage && `bp3-intent-danger`}
                 placeholder="Please Enter your user name"
                 value={username}
                 onChange={this.handleChange}
@@ -78,6 +90,7 @@ class Login extends Component<LoginProps, LoginState> {
 
 interface LinkStateProps {
   isLoggedIn: boolean;
+  errorMessage?: string;
 }
 interface LinkDispatchProps {
   doLogin: (username: string) => void;
@@ -85,7 +98,8 @@ interface LinkDispatchProps {
 
 const mapStateToProps = (state: AppState): LinkStateProps => {
   return {
-    isLoggedIn: state.login.isLoggedIn
+    isLoggedIn: state.login.isLoggedIn,
+    errorMessage: state.validationErrors.errorMessage
   };
 };
 
