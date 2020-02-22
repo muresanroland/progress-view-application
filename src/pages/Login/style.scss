@@ -1,0 +1,28 @@
+@import '~@blueprintjs/core/lib/scss/variables';
+
+.login-form-container {
+  width: 500px;
+  height: 250px;
+  margin: 15% auto;
+
+  h2 {
+    color: $blue1;
+    text-align: center;
+  }
+
+  .login-form {
+    width: 80%;
+    margin: 30px auto;
+
+    input {
+      margin-bottom: 20px;
+    }
+
+    button {
+      width: 160px;
+      margin: 0 auto;
+      display: block;
+      text-align: center;
+    }
+  }
+}

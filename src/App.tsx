@@ -1,15 +1,18 @@
-import { Button, Intent, Spinner } from '@blueprintjs/core';
-import React, { Component } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import LoadingSpinner from './components/LoadingSpinner';
+import React, { Suspense } from 'react';
+import Routes from './components/Routes';
+import { Provider } from 'react-redux';
+import store from './store';
 
-export class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <Button>Test</Button>
-        <Spinner intent={Intent.PRIMARY} />
-      </div>
-    );
-  }
+export default function App() {
+  return (
+    <Provider store={store}>
+      <Suspense fallback={<LoadingSpinner />}>
+        <Router>
+          <Routes />
+        </Router>
+      </Suspense>
+    </Provider>
+  );
 }
-
-export default App;

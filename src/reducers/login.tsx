@@ -1,5 +1,5 @@
 import { ACTION_CONSTS } from '../constants';
-import User from '../interfaces/User.interface';
+import User from '../types/User';
 
 interface IState {
   isLoggedIn: Boolean;

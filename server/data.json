@@ -479,27 +479,27 @@
   "users": [
     {
       "id": 1,
-      "name": "user1",
+      "username": "user1",
       "avatar": "https://robohash.org/cumquoiste.png?size=50x50&set=set1"
     },
     {
       "id": 2,
-      "name": "user2",
+      "username": "user2",
       "avatar": "https://robohash.org/quicorruptimagnam.png?size=50x50&set=set1"
     },
     {
       "id": 3,
-      "name": "user3",
+      "username": "user3",
       "avatar": "https://robohash.org/isteminusipsum.png?size=50x50&set=set1"
     },
     {
       "id": 4,
-      "name": "user4",
+      "username": "user4",
       "avatar": "https://robohash.org/pariaturconsequunturmolestias.png?size=50x50&set=set1"
     },
     {
       "id": 5,
-      "name": "user5",
+      "username": "user5",
       "avatar": "https://robohash.org/veritatisquisquameum.png?size=50x50&set=set1"
     }
   ]

@@ -7,7 +7,7 @@ type Task = {
   id: number;
 };
 
-export default interface IStep {
+export default interface Step {
   id: number;
   name:
     | 'Normalization'
