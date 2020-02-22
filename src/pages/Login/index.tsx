@@ -1,11 +1,4 @@
-import {
-  Button,
-  Card,
-  Elevation,
-  InputGroup,
-  Intent,
-  Label
-} from '@blueprintjs/core';
+import { Button, Card, Elevation, InputGroup, Intent } from '@blueprintjs/core';
 import { AppActionTypes } from '../../types/actions';
 import React, { Component, FormEvent } from 'react';
 import { doLogin } from '../../actions/user';
@@ -35,20 +28,20 @@ class Login extends Component<LoginProps, LoginState> {
     };
   }
 
-  handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
+  private handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     const { username } = this.state;
     console.log(username);
     this.props.doLogin(username);
   };
 
-  handleChange = (e: FormEvent<HTMLInputElement>): void => {
+  private handleChange = (e: FormEvent<HTMLInputElement>): void => {
     this.setState({
       username: e.currentTarget.value
     });
   };
 
-  render() {
+  public render() {
     const { username } = this.state;
     const { isLoggedIn, errorMessage } = this.props;
     console.log(isLoggedIn);
@@ -68,7 +61,7 @@ class Login extends Component<LoginProps, LoginState> {
               )}
               <InputGroup
                 id="user-name"
-                className={errorMessage && `bp3-intent-danger`}
+                className={errorMessage && `bp3-intent-${Intent.DANGER}`}
                 placeholder="Please Enter your user name"
                 value={username}
                 onChange={this.handleChange}
