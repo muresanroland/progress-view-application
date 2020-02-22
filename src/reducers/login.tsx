@@ -1,34 +1,33 @@
-import { ACTION_CONSTS } from '../constants';
 import User from '../types/User';
-
-interface IState {
-  isLoggedIn: Boolean;
-  currentUser?: User;
-}
+import { LOGIN, LOGOUT, LoginActionTypes } from '../types/actions';
 
 const initialState = {
   isLoggedIn: false
 };
 
-interface Action {
-  type: string;
-  payload: User;
+interface returnValue {
+  isLoggedIn: boolean;
+  currentUser?: User;
 }
 
-export default function(state: IState = initialState, action: Action) {
+const loginReducer = (
+  state = initialState,
+  action: LoginActionTypes
+): returnValue => {
   switch (action.type) {
-    case ACTION_CONSTS.loginSuccess: {
+    case LOGIN: {
       return {
         ...state,
         isLoggedIn: true,
         currentUser: action.payload
       };
     }
-    case ACTION_CONSTS.loginFailure:
-    case ACTION_CONSTS.logout: {
+    case LOGOUT: {
       return initialState;
     }
     default:
       return state;
   }
-}
+};
+
+export default loginReducer;

@@ -1,19 +1,23 @@
 import { Button, Card, Elevation, InputGroup, Intent } from '@blueprintjs/core';
 import React, { Component, FormEvent } from 'react';
-import { Action } from 'redux';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import './style.scss';
+import { AppState } from '../../store/index';
+import { ThunkDispatch } from 'redux-thunk';
+import { AppActionTypes } from '../../types/actions';
+import { doLogin } from '../../actions/user';
 
-interface Props {
+interface LoginProps {
   doLogin: (username: string) => void;
 }
 
-interface State {
+interface LoginState {
   username: string;
 }
 
-export default class Login extends Component<Props, State> {
-  constructor(props: Readonly<Props>) {
+class Login extends Component<LoginProps, LoginState> {
+  constructor(props: Readonly<LoginProps>) {
     super(props);
 
     this.state = {
@@ -25,7 +29,7 @@ export default class Login extends Component<Props, State> {
     e.preventDefault();
     const { username } = this.state;
     console.log(username);
-    // this.props.doLogin(username);
+    this.props.doLogin(username);
   };
 
   handleChange = (e: FormEvent<HTMLInputElement>): void => {
@@ -48,6 +52,7 @@ export default class Login extends Component<Props, State> {
             placeholder="Please Enter your user name"
             value={username}
             onChange={this.handleChange}
+            required={true}
           />
           <Button
             intent={Intent.PRIMARY}
@@ -61,82 +66,23 @@ export default class Login extends Component<Props, State> {
   }
 }
 
-// import React, { Component } from 'react'
+interface LinkStateProps {
+  isLoggedIn: boolean;
+}
+interface LinkDispatchProps {
+  doLogin: (username: string) => void;
+}
 
-// import { Redirect } from 'react-router-dom'
+const mapStateToProps = (state: AppState): LinkStateProps => {
+  return {
+    isLoggedIn: true
+  };
+};
 
-// import LoginForm from '../../components/LoginForm'
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<any, any, AppActionTypes>
+): LinkDispatchProps => ({
+  doLogin: bindActionCreators(doLogin, dispatch)
+});
 
-// class Login extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       username: '',
-//       password: ''
-//     }
-//     this.props.doLogout();
-//   }
-
-//   handleSubmit = (e) => {
-//     e.preventDefault();
-//     const { username, password } = this.state;
-//     this.props.doLogin(username, password);
-//   }
-
-//   handleChange = (e) => {
-//     this.setState({
-//       [e.target.name]: e.target.value
-//     });
-//   }
-
-//   render() {
-//     const { isLoggedIn } = this.props
-//     return (
-//       <>
-//         {
-//           isLoggedIn ?
-//             <Redirect to='/user-list'></Redirect> :
-//             <LoginForm
-//               onChange={this.handleChange}
-//               onSubmit={this.handleSubmit}
-//               {...this.state}>
-//             </LoginForm>
-//         }
-//       </>
-//     )
-//   }
-// }
-
-// interface LoginInterface {
-//   isLoggedIn: boolean;
-// }
-
-// interface SystemState {
-//   login: LoginInterface;
-//   userName?: string;
-// }
-
-// const mapStateToProps = (state: SystemState) => {
-//   return {
-//     isLoggedIn: state.login.isLoggedIn
-//   };
-// };
-
-// interface LoginDispatch {
-//   doLogin: (username: string) => void;
-// }
-
-// const mapDispatchToProps = (
-//   dispatch: (x: Action<string>) => void
-// ): LoginDispatch => {
-//   return {
-//     // doLogout: () => {
-//     //   dispatch(userActions.logout());
-//     // },
-//     doLogin: username => {
-//       dispatch(userActions.login(username));
-//     }
-//   };
-// };
-
-// export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

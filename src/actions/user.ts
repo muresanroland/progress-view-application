@@ -21,7 +21,8 @@ export const doLogin = (username: string) => {
       .then(user => {
         console.log(user);
         if (user) {
-          dispatch(loginUser(user[0]));
+          // const userData = user[0];
+          // dispatch(loginUser(userData));
           dispatch(stopLoading());
         } else {
           // dispatch(failure());
