@@ -19,10 +19,8 @@ export const doLogin = (username: string) => {
     dispatch(startLoading());
     ApiService.userLogin(username)
       .then(user => {
-        console.log(user);
         if (user) {
-          // const userData = user[0];
-          // dispatch(loginUser(userData));
+          dispatch(loginUser(user));
           dispatch(stopLoading());
         } else {
           // dispatch(failure());

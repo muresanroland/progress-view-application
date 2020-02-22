@@ -1,6 +1,8 @@
 import User from '../types/User';
 import { LOGIN, LOGOUT, LoginActionTypes } from '../types/actions';
 
+// const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
 const initialState = {
   isLoggedIn: false
 };

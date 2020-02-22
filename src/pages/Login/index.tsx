@@ -1,15 +1,17 @@
 import { Button, Card, Elevation, InputGroup, Intent } from '@blueprintjs/core';
+import { AppActionTypes } from '../../types/actions';
 import React, { Component, FormEvent } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import './style.scss';
+import { doLogin } from '../../actions/user';
 import { AppState } from '../../store/index';
 import { ThunkDispatch } from 'redux-thunk';
-import { AppActionTypes } from '../../types/actions';
-import { doLogin } from '../../actions/user';
+import { bindActionCreators } from 'redux';
+import { Redirect } from 'react-router';
+import { connect } from 'react-redux';
+import './style.scss';
 
 interface LoginProps {
   doLogin: (username: string) => void;
+  isLoggedIn: boolean;
 }
 
 interface LoginState {
@@ -40,28 +42,36 @@ class Login extends Component<LoginProps, LoginState> {
 
   render() {
     const { username } = this.state;
+    const { isLoggedIn } = this.props;
+    console.log(isLoggedIn);
     return (
-      <Card
-        interactive={false}
-        elevation={Elevation.FOUR}
-        className="login-form-container">
-        <h2>Plase Login with your username</h2>
-        <form onSubmit={this.handleSubmit} className="login-form">
-          <InputGroup
-            id="user-name"
-            placeholder="Please Enter your user name"
-            value={username}
-            onChange={this.handleChange}
-            required={true}
-          />
-          <Button
-            intent={Intent.PRIMARY}
-            text="Login"
-            large={true}
-            type="submit"
-          />
-        </form>
-      </Card>
+      <>
+        {isLoggedIn ? (
+          <Redirect to="/" />
+        ) : (
+          <Card
+            interactive={false}
+            elevation={Elevation.FOUR}
+            className="login-form-container">
+            <h2>Plase Login with your username</h2>
+            <form onSubmit={this.handleSubmit} className="login-form">
+              <InputGroup
+                id="user-name"
+                placeholder="Please Enter your user name"
+                value={username}
+                onChange={this.handleChange}
+                required={true}
+              />
+              <Button
+                intent={Intent.PRIMARY}
+                text="Login"
+                large={true}
+                type="submit"
+              />
+            </form>
+          </Card>
+        )}
+      </>
     );
   }
 }
@@ -75,7 +85,7 @@ interface LinkDispatchProps {
 
 const mapStateToProps = (state: AppState): LinkStateProps => {
   return {
-    isLoggedIn: true
+    isLoggedIn: state.login.isLoggedIn
   };
 };
 
