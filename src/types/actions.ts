@@ -5,12 +5,20 @@ import User from './User';
 
 export const START_LOADING = 'START_LOADING';
 export const STOP_LOADING = 'STOP_LOADING';
+
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
+
 export const GET_PIPELINES = 'GET_PIPELINES';
 export const CREATE_PIPELINE = 'CREATE_PIPELINE';
 export const UPDATE_PIPELINE = 'UPDATE_PIPELINE';
 export const DELETE_PIPELINE = 'DELETE_PIPELINE';
+
+export const GET_STEPS = 'GET_STEPS';
+export const UPDATE_STEPS = 'UPDATE_STEP';
+
+export const GET_TASKS = 'GET_TASKS';
+export const UPDATE_TASK = 'UPDATE_TASK';
 
 export interface LoginAction {
   type: typeof LOGIN;
@@ -49,6 +57,26 @@ export interface DeletePipeLine {
   payload: Pipeline;
 }
 
+export interface GetStepsAction {
+  type: typeof GET_STEPS;
+  payload: Step[];
+}
+
+export interface UpdateStepAction {
+  type: typeof GET_STEPS;
+  payload: Step;
+}
+
+export interface GetTasksAction {
+  type: typeof GET_TASKS;
+  payload: Task[];
+}
+
+export interface UpdateTask {
+  type: typeof UPDATE_TASK;
+  payload: Task;
+}
+
 export type LoginActionTypes = LoginAction | LogoutAction;
 
 export type LoadingActionType = StartLoadingAction | StopLoadingAction;
@@ -59,7 +87,13 @@ export type PipelineActionType =
   | UpdatePipelineAction
   | DeletePipeLine;
 
+export type StepActionType = GetStepsAction | UpdateStepAction;
+
+export type TaskActionType = GetTasksAction | UpdateTask;
+
 export type AppActionTypes =
   | LoginActionTypes
   | LoadingActionType
-  | PipelineActionType;
+  | PipelineActionType
+  | StepActionType
+  | TaskActionType;
