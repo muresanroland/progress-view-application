@@ -16,10 +16,9 @@ import Routes from './components/Routes';
 /**
  * Types
  */
-import User from './types/User';
 
 interface AppProps {
-  doLogin: (userData: User) => void;
+  doLogin: (username: string) => void;
 }
 interface AppState {
   sessionInitialized: boolean;
@@ -36,24 +35,29 @@ class App extends Component<AppProps, AppState> {
   componentDidMount() {
     const userData = localStorage.getItem('currentUser');
     if (userData) {
-      this.props.doLogin(JSON.parse(userData).username);
+      const currentUser = JSON.parse(userData);
+      this.props.doLogin(currentUser.username);
     }
 
     this.setState({ sessionInitialized: true });
   }
 
   render() {
-    if (this.state.sessionInitialized) {
-      return (
-        <Suspense fallback={<LoadingSpinner />}>
-          <Router>
-            <Routes />
-          </Router>
-        </Suspense>
-      );
-    }
+    const { sessionInitialized } = this.state;
 
-    return <LoadingSpinner />;
+    return (
+      <>
+        {sessionInitialized ? (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Router>
+              <Routes />
+            </Router>
+          </Suspense>
+        ) : (
+          <LoadingSpinner />
+        )}
+      </>
+    );
   }
 }
 
@@ -63,13 +67,9 @@ interface LinkDispatchProps {
   doLogin: (username: string) => void;
 }
 
-const mapStateToProps = (state: AppState): LinkStateProps => {
-  return {};
-};
-
 const mapDispatchToProps = (
   dispatch: ThunkDispatch<any, any, AppActionTypes>
 ): LinkDispatchProps => ({
   doLogin: bindActionCreators(doLogin, dispatch)
 });
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(null, mapDispatchToProps)(App);

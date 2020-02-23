@@ -58,8 +58,7 @@ const deletePipeline = (): DeletePipeLine => ({
 export const doGetPipelines = () => {
   return (dispatch: Dispatch<AppActionTypes>, getState: () => AppState) => {
     dispatch(startLoading());
-    const username = getState().login.currentUser?.name;
-    console.log(username);
+    const username = getState().login.currentUser.username;
     getAllPipelinesService(username)
       .then((pipelines: Pipeline[]) => {
         if (pipelines.length) {

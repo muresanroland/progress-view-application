@@ -4,7 +4,7 @@ import { LOGIN, LOGOUT, LoginActionType } from '../types/actions';
 const initialState = {
   isLoggedIn: false,
   currentUser: {
-    name: '',
+    username: '',
     avatar: ''
   }
 };

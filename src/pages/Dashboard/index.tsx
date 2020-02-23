@@ -39,14 +39,16 @@ export class Dashboard extends Component<DashboardProps, DashboardState> {
     console.log(pipelines);
     return (
       <>
-        {pipelines.length ? (
+        {isLoading ? (
           <LoadingSpinner />
         ) : (
           <div className="container-dashboard">
             <h1>Active pipelines</h1>
-            {pipelines.map(pipeline => (
-              <PipelineCard key={pipeline.id} data={pipeline} />
-            ))}
+            <div className="pipelines-container">
+              {pipelines.map(pipeline => (
+                <PipelineCard key={pipeline.id} data={pipeline} />
+              ))}
+            </div>
           </div>
         )}
       </>
