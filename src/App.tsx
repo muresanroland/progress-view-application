@@ -1,38 +1,75 @@
 import { BrowserRouter as Router } from 'react-router-dom';
-import LoadingSpinner from './components/LoadingSpinner';
-import Navigation from './components/Navigation/index';
 import React, { Suspense, Component } from 'react';
-import Routes from './components/Routes';
+import { AppActionTypes } from './types/actions';
+import { ThunkDispatch } from 'redux-thunk';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { AppState } from './store';
+/**
+ * Actions
+ */
+import { doLogin } from './actions/user';
+/**
+ * Components
+ */
+import LoadingSpinner from './components/LoadingSpinner';
+import Routes from './components/Routes';
+/**
+ * Types
+ */
 
 interface AppProps {
-  isLoggedIn: boolean;
+  doLogin: (username: string) => void;
+}
+interface AppState {
+  sessionInitialized: boolean;
 }
 
-class App extends Component<AppProps, {}> {
+class App extends Component<AppProps, AppState> {
+  constructor(props: AppProps) {
+    super(props);
+    this.state = {
+      sessionInitialized: false
+    };
+  }
+
+  componentDidMount() {
+    const userData = localStorage.getItem('currentUser');
+    if (userData) {
+      const currentUser = JSON.parse(userData);
+      this.props.doLogin(currentUser.username);
+    }
+
+    this.setState({ sessionInitialized: true });
+  }
+
   render() {
-    const { isLoggedIn } = this.props;
+    const { sessionInitialized } = this.state;
+
     return (
-      <Suspense fallback={<LoadingSpinner />}>
-        <Router>
-          <Navigation isLoggedIn={isLoggedIn} />
-          <Routes />
-        </Router>
-      </Suspense>
+      <>
+        {sessionInitialized ? (
+          <Suspense fallback={<LoadingSpinner />}>
+            <Router>
+              <Routes />
+            </Router>
+          </Suspense>
+        ) : (
+          <LoadingSpinner />
+        )}
+      </>
     );
   }
 }
 
-interface LinkStateProps {
-  isLoggedIn: boolean;
-  userData?: string;
+interface LinkStateProps {}
+
+interface LinkDispatchProps {
+  doLogin: (username: string) => void;
 }
 
-const mapStateToProps = (state: AppState): LinkStateProps => {
-  return {
-    isLoggedIn: state.login.isLoggedIn
-  };
-};
-
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<any, any, AppActionTypes>
+): LinkDispatchProps => ({
+  doLogin: bindActionCreators(doLogin, dispatch)
+});
+export default connect(null, mapDispatchToProps)(App);

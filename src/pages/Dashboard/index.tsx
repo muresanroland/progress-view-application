@@ -1,33 +1,82 @@
-import CheckLoginContainer from '../../containers/CheckLoginContainer';
-import PipelineCard from '../../components/PipelineCard';
+import { ThunkDispatch } from 'redux-thunk';
+import { bindActionCreators } from 'redux';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+/**
+ * Components
+ */
+import PipelineCard from '../../components/PipelineCard';
+import LoadingSpinner from '../../components/LoadingSpinner/index';
+/**
+ * Actions
+ */
+import { doGetPipelines } from '../../actions/pipeline';
+/**
+ * Types
+ */
+import Pipeline from '../../types/Pipeline';
+import { AppState } from '../../store/index';
+import { AppActionTypes } from '../../types/actions';
+/**
+ * Styles
+ */
 import './style.scss';
-import { getPipelines } from '../../actions/pipeline';
 
 interface DashboardProps {
-  getPipelines: () => void;
+  doGetPipelines: () => void;
+  pipelines: Pipeline[];
+  isLoading: boolean;
 }
 
 interface DashboardState {}
 
 export class Dashboard extends Component<DashboardProps, DashboardState> {
-  constructor(props: DashboardProps) {
-    super(props);
-
-    this.state = {
-      picsa: 's'
-    };
+  componentDidMount() {
+    this.props.doGetPipelines();
   }
   render() {
+    const { pipelines, isLoading } = this.props;
+    console.log(pipelines);
     return (
-      //<CheckLoginContainer>
-      <div className="container-dashboard">
-        <h1>This is the dashboard component</h1>
-        <PipelineCard />
-      </div>
-      // </CheckLoginContainer>
+      <>
+        {isLoading ? (
+          <LoadingSpinner />
+        ) : (
+          <div className="container-dashboard">
+            <h1>Active pipelines</h1>
+            <div className="pipelines-container">
+              {pipelines.map(pipeline => (
+                <PipelineCard key={pipeline.id} data={pipeline} />
+              ))}
+            </div>
+          </div>
+        )}
+      </>
     );
   }
 }
 
-export default Dashboard;
+interface LinkStateProps {
+  pipelines: Pipeline[];
+  isLoading: boolean;
+}
+
+interface LinkDispatchProps {
+  doGetPipelines: () => void;
+}
+
+const mapStateToProps = (state: AppState): LinkStateProps => {
+  console.log('some state: ', state);
+  return {
+    pipelines: state.pipeline.pipelines,
+    isLoading: state.loading.isLoading
+  };
+};
+
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<any, any, AppActionTypes>
+): LinkDispatchProps => ({
+  doGetPipelines: bindActionCreators(doGetPipelines, dispatch)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

@@ -1,12 +1,24 @@
-import { Button, Card, Elevation, InputGroup, Intent } from '@blueprintjs/core';
-import { AppActionTypes } from '../../types/actions';
 import React, { Component, FormEvent } from 'react';
-import { doLogin } from '../../actions/user';
-import { AppState } from '../../store/index';
 import { ThunkDispatch } from 'redux-thunk';
 import { bindActionCreators } from 'redux';
 import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
+/**
+ * Bluepring components
+ */
+import { Button, Card, Elevation, InputGroup, Intent } from '@blueprintjs/core';
+/**
+ * Actions
+ */
+import { AppActionTypes } from '../../types/actions';
+import { doLogin } from '../../actions/user';
+/**
+ * Types
+ */
+import { AppState } from '../../store';
+/**
+ * Styles
+ */
 import './style.scss';
 
 interface LoginProps {
@@ -31,7 +43,6 @@ class Login extends Component<LoginProps, LoginState> {
   private handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     const { username } = this.state;
-    console.log(username);
     this.props.doLogin(username);
   };
 
@@ -44,7 +55,6 @@ class Login extends Component<LoginProps, LoginState> {
   public render() {
     const { username } = this.state;
     const { isLoggedIn, errorMessage } = this.props;
-    console.log(isLoggedIn);
     return (
       <>
         {isLoggedIn ? (
@@ -56,9 +66,7 @@ class Login extends Component<LoginProps, LoginState> {
             className="login-form-container">
             <h2>Plase Login with your username</h2>
             <form onSubmit={this.handleSubmit} className="login-form">
-              {errorMessage && (
-                <span className="form-error">{errorMessage}</span>
-              )}
+              {errorMessage && <span className="form-error">{errorMessage}</span>}
               <InputGroup
                 id="user-name"
                 className={errorMessage && `bp3-intent-${Intent.DANGER}`}
@@ -67,12 +75,7 @@ class Login extends Component<LoginProps, LoginState> {
                 onChange={this.handleChange}
                 required={true}
               />
-              <Button
-                intent={Intent.PRIMARY}
-                text="Login"
-                large={true}
-                type="submit"
-              />
+              <Button intent={Intent.PRIMARY} text="Login" large={true} type="submit" />
             </form>
           </Card>
         )}
@@ -92,7 +95,7 @@ interface LinkDispatchProps {
 const mapStateToProps = (state: AppState): LinkStateProps => {
   return {
     isLoggedIn: state.login.isLoggedIn,
-    errorMessage: state.validationErrors.errorMessage
+    errorMessage: state.error.errorMessage
   };
 };
 

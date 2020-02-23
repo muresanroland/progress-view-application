@@ -1,11 +1,17 @@
 import { combineReducers } from 'redux';
-
+/**
+ * Reducers
+ */
 import loginReducer from './login';
-import validationErrorReducer from './validationErrors';
+import errorReducer from './error';
+import pipelineReducer from './pipeline';
+import loadingReducer from './loading';
 
 const rootReducer = combineReducers({
   login: loginReducer,
-  validationErrors: validationErrorReducer
+  error: errorReducer,
+  pipeline: pipelineReducer,
+  loading: loadingReducer
 });
 
 export default rootReducer;

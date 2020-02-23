@@ -1,29 +1,32 @@
 import User from '../types/User';
-import { LOGIN, LOGOUT, LoginActionTypes } from '../types/actions';
+import { LOGIN, LOGOUT, LoginActionType } from '../types/actions';
 
 const initialState = {
-  isLoggedIn: false
+  isLoggedIn: false,
+  currentUser: {
+    username: '',
+    avatar: ''
+  }
 };
 
 interface returnValue {
   isLoggedIn: boolean;
-  payload?: User;
+  currentUser: User;
 }
 
-const loginReducer = (
-  state = initialState,
-  action: LoginActionTypes
-): returnValue => {
+const loginReducer = (state = initialState, action: LoginActionType): returnValue => {
   switch (action.type) {
     case LOGIN: {
       return {
         ...state,
         isLoggedIn: true,
-        payload: action.payload
+        currentUser: action.payload
       };
     }
     case LOGOUT: {
-      return initialState;
+      return {
+        ...state
+      };
     }
     default:
       return state;
