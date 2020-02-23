@@ -1,5 +1,8 @@
 import React from 'react';
-import User from '../../types/User';
+
+/**
+ * Blueprint components
+ */
 import {
   Alignment,
   Navbar,
@@ -8,25 +11,24 @@ import {
   NavbarHeading
 } from '@blueprintjs/core';
 
+/**
+ * Types
+ */
+import User from '../../types/User';
+
 interface NavigationProps {
-  isLoggedIn: boolean;
   userData?: User;
 }
 
 function Navigation(props: NavigationProps) {
-  const { isLoggedIn } = props;
   return (
-    <>
-      {isLoggedIn && (
-        <Navbar fixedToTop={true}>
-          <NavbarGroup align={Alignment.LEFT}>
-            <NavbarHeading>Progress View Application</NavbarHeading>
-            <NavbarDivider />
-            <img src="" alt="" />
-          </NavbarGroup>
-        </Navbar>
-      )}
-    </>
+    <Navbar fixedToTop={true}>
+      <NavbarGroup align={Alignment.LEFT}>
+        <NavbarHeading>Progress View Application</NavbarHeading>
+        <NavbarDivider />
+        <img src="" alt="" />
+      </NavbarGroup>
+    </Navbar>
   );
 }
 

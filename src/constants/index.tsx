@@ -1,9 +1,9 @@
-const ACTION_CONSTS = {
-  loginSuccess: 'LOGIN_SUCCESS',
-  loginFailure: 'LOGIN_FAILURE',
-  logout: 'LOGOUT',
-  startLoading: 'START_LOADING',
-  stopLoading: 'STOP_LOADING'
+const API_BASE_URL = 'http://localhost:3004/';
+const API_PATHS = {
+  USER: 'users/',
+  PIPELINE: 'pipelines/',
+  STEP: 'steps/',
+  TASK: 'tasks/'
 };
 
-export { ACTION_CONSTS };
+export { API_BASE_URL, API_PATHS };

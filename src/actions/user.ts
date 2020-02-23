@@ -1,45 +1,57 @@
+import { Dispatch } from 'redux';
+/**
+ * Actions
+ */
+import { startLoading, stopLoading } from './loading';
+import { error } from './error';
+/**
+ * Services
+ */
+import { userLoginService } from '../services';
+/**
+ * Types
+ */
 import {
   LOGIN,
   LOGOUT,
   AppActionTypes,
-  VALIDATION_ERROR
+  LoginAction,
+  LogoutAction
 } from '../types/actions';
-import { startLoading, stopLoading } from './loading';
-import ApiService from '../services/apiService';
 import { AppState } from '../store/index';
 import User from '../types/User';
-import { Dispatch } from 'redux';
 
-export const loginUser = (userData: User): AppActionTypes => ({
+/**
+ * User action creators
+ */
+export const loginUser = (userData: User): LoginAction => ({
   type: LOGIN,
   payload: userData
 });
 
-export const logoutUser = (): AppActionTypes => ({
+export const logoutUser = (): LogoutAction => ({
   type: LOGOUT
 });
 
-export const loginFail = (errorMessage: string): AppActionTypes => ({
-  type: VALIDATION_ERROR,
-  errorMessage
-});
-
+/**
+ * User actions
+ */
 export const doLogin = (username: string) => {
   return (dispatch: Dispatch<AppActionTypes>, getState: () => AppState) => {
     dispatch(startLoading());
-    ApiService.userLogin(username)
+    userLoginService(username)
       .then(user => {
         if (user) {
           dispatch(loginUser(user));
           dispatch(stopLoading());
         } else {
-          dispatch(loginFail('Username incorrect'));
+          dispatch(error('Username incorrect'));
           dispatch(stopLoading());
         }
       })
       .catch(error => {
         console.log(error);
-        dispatch(loginFail('Something went wrong'));
+        dispatch(error('Something went wrong'));
         dispatch(stopLoading());
       });
   };

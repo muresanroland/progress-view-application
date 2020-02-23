@@ -1,4 +1,4 @@
-import { VALIDATION_ERROR, ValidationErrorType } from '../types/actions';
+import { ERROR, ErrorType } from '../types/actions';
 
 const initialState = {
   errorMessage: ''
@@ -8,12 +8,9 @@ interface returnValue {
   errorMessage: string;
 }
 
-const validationErrorReducer = (
-  state = initialState,
-  action: ValidationErrorType
-): returnValue => {
+const errorReducer = (state = initialState, action: ErrorType): returnValue => {
   switch (action.type) {
-    case VALIDATION_ERROR: {
+    case ERROR: {
       return {
         ...state,
         errorMessage: action.errorMessage
@@ -24,4 +21,4 @@ const validationErrorReducer = (
   }
 };
 
-export default validationErrorReducer;
+export default errorReducer;

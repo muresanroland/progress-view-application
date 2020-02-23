@@ -20,7 +20,7 @@ export const UPDATE_STEPS = 'UPDATE_STEP';
 export const GET_TASKS = 'GET_TASKS';
 export const UPDATE_TASK = 'UPDATE_TASK';
 
-export const VALIDATION_ERROR = 'VALIDATION_ERROR';
+export const ERROR = 'ERROR';
 
 export interface LoginAction {
   type: typeof LOGIN;
@@ -29,11 +29,7 @@ export interface LoginAction {
 
 export interface LogoutAction {
   type: typeof LOGOUT;
-}
-
-export interface ValidationError {
-  type: typeof VALIDATION_ERROR;
-  errorMessage: string;
+  payload?: User;
 }
 
 export interface StartLoadingAction {
@@ -61,7 +57,6 @@ export interface UpdatePipelineAction {
 
 export interface DeletePipeLine {
   type: typeof DELETE_PIPELINE;
-  payload: Pipeline;
 }
 
 export interface GetStepsAction {
@@ -79,12 +74,17 @@ export interface GetTasksAction {
   payload: Task[];
 }
 
-export interface UpdateTask {
+export interface UpdateTaskAction {
   type: typeof UPDATE_TASK;
   payload: Task;
 }
 
-export type LoginActionTypes = LoginAction | LogoutAction;
+export interface Error {
+  type: typeof ERROR;
+  errorMessage: string;
+}
+
+export type LoginActionType = LoginAction | LogoutAction;
 
 export type LoadingActionType = StartLoadingAction | StopLoadingAction;
 
@@ -96,14 +96,14 @@ export type PipelineActionType =
 
 export type StepActionType = GetStepsAction | UpdateStepAction;
 
-export type TaskActionType = GetTasksAction | UpdateTask;
+export type TaskActionType = GetTasksAction | UpdateTaskAction;
 
-export type ValidationErrorType = ValidationError;
+export type ErrorType = Error;
 
 export type AppActionTypes =
-  | LoginActionTypes
+  | LoginActionType
   | LoadingActionType
   | PipelineActionType
   | StepActionType
   | TaskActionType
-  | ValidationErrorType;
+  | ErrorType;

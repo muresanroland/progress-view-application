@@ -3,7 +3,7 @@ type stepId = {
 };
 
 export default interface Pipeline {
-  id: number;
+  id?: number;
   name: string;
   steps: stepId[];
   created_by: string;
