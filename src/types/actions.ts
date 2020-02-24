@@ -82,7 +82,7 @@ export interface GetTasksAction {
 
 export interface UpdateTaskAction {
   type: typeof UPDATE_TASK;
-  payload: Task[];
+  payload: Task;
 }
 
 export interface Error {

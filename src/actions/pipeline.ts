@@ -114,8 +114,9 @@ export const doUpdatePipeline = (pipeline: Pipeline) => {
     dispatch(error(''));
     updatePipelineService(pipeline)
       .then(responseData => {
-        if (checkPipelineType(pipeline) && isEqual(responseData, pipeline)) {
-          doGetPipelines();
+        if (checkPipelineType(responseData) && isEqual(responseData, pipeline)) {
+          dispatch(updatePipeline(responseData));
+          dispatch(stopLoading());
         } else {
           dispatch(error('Pipeline not updated'));
           dispatch(stopLoading());

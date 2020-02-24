@@ -19,7 +19,10 @@ import { getAllTasksService, updateTaskService } from '../services';
  */
 import { startLoading, stopLoading } from './loading';
 import { error } from './error';
-import { checkPipelineType } from '../types/Pipeline';
+/**
+ * Types
+ */
+import { checkTaskType } from '../types/Task';
 
 /**
  * Task action creators
@@ -29,9 +32,9 @@ const getAllTasks = (taskList: Task[]): GetTasksAction => ({
   payload: taskList
 });
 
-const updateTask = (taskList: Task[]): UpdateTaskAction => ({
+const updateTask = (task: Task): UpdateTaskAction => ({
   type: UPDATE_TASK,
-  payload: taskList
+  payload: task
 });
 
 export const doGetAllTasks = () => {
@@ -63,10 +66,11 @@ export const doUpdateTask = (task: Task) => {
     dispatch(error(''));
     updateTaskService(task)
       .then(responseData => {
-        if (checkPipelineType(responseData) && isEqual(responseData, task)) {
-          doGetAllTasks();
+        if (checkTaskType(responseData) && isEqual(responseData, task)) {
+          dispatch(updateTask(responseData));
+          dispatch(stopLoading());
         } else {
-          dispatch(error('Task not updated found'));
+          dispatch(error('Task not updated'));
           dispatch(stopLoading());
         }
       })

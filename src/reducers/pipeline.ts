@@ -1,3 +1,6 @@
+/**
+ * Types
+ */
 import Pipeline from '../types/Pipeline';
 import { GET_PIPELINE } from '../types/actions';
 import {
@@ -7,6 +10,10 @@ import {
   CREATE_PIPELINE,
   DELETE_PIPELINE
 } from '../types/actions';
+/**
+ * Utils
+ */
+import { updateElementInArray } from '../utils';
 
 interface initState {
   pipelineList: Pipeline[];
@@ -42,7 +49,8 @@ const pipelineReducer = (
     case UPDATE_PIPELINE: {
       return {
         ...state,
-        currentPipeline: action.payload
+        currentPipeline: action.payload,
+        pipelineList: updateElementInArray(action.payload, state.pipelineList)
       };
     }
     case CREATE_PIPELINE: {

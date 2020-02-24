@@ -1,5 +1,9 @@
 import Task from '../types/Task';
 import { TaskActionType, GET_TASKS, UPDATE_TASK } from '../types/actions';
+/**
+ * Utils
+ */
+import { updateElementInArray } from '../utils';
 interface initState {
   taskList: Task[];
 }
@@ -14,11 +18,16 @@ const initialState: initState = {
 
 const taskReducer = (state = initialState, action: TaskActionType): returnValue => {
   switch (action.type) {
-    case GET_TASKS:
-    case UPDATE_TASK: {
+    case GET_TASKS: {
       return {
         ...state,
         taskList: action.payload
+      };
+    }
+    case UPDATE_TASK: {
+      return {
+        ...state,
+        taskList: updateElementInArray(action.payload, state.taskList)
       };
     }
     default: {

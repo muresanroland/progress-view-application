@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 /**
  * Actions
  */
-import { doLogin } from './actions/user';
+import { doLogin, loginUser } from './actions/user';
 /**
  * Components
  */
@@ -16,9 +16,10 @@ import Routes from './components/Routes';
 /**
  * Types
  */
+import User from './types/User';
 
 interface AppProps {
-  doLogin: (username: string) => void;
+  loginUser: (userData: User) => void;
 }
 interface AppState {
   sessionInitialized: boolean;
@@ -36,7 +37,7 @@ class App extends Component<AppProps, AppState> {
     const userData = localStorage.getItem('currentUser');
     if (userData) {
       const currentUser = JSON.parse(userData);
-      this.props.doLogin(currentUser.username);
+      this.props.loginUser(currentUser);
     }
 
     this.setState({ sessionInitialized: true });
@@ -61,15 +62,4 @@ class App extends Component<AppProps, AppState> {
   }
 }
 
-interface LinkStateProps {}
-
-interface LinkDispatchProps {
-  doLogin: (username: string) => void;
-}
-
-const mapDispatchToProps = (
-  dispatch: ThunkDispatch<any, any, AppActionTypes>
-): LinkDispatchProps => ({
-  doLogin: bindActionCreators(doLogin, dispatch)
-});
-export default connect(null, mapDispatchToProps)(App);
+export default connect(null, { loginUser })(App);
