@@ -12,17 +12,15 @@ import Pipeline from '../../types/Pipeline';
  */
 import './style.scss';
 
-interface PipelineProps {
+interface PipelineCardProps {
   data: Pipeline;
 }
 
-const PipelineCard = (props: PipelineProps) => {
+const PipelineCard = (props: PipelineCardProps) => {
   const { data } = props;
   return (
-    <Card className="pipeline-card" interactive={true} elevation={Elevation.TWO}>
-      <h4>
-        <a href={`/pipeline/${data.id}`}>{data.name}</a>
-      </h4>
+    <Card className="pipeline-card" interactive={false} elevation={Elevation.TWO}>
+      <h4>{data.name}</h4>
       <p>Created by: {data.created_by}</p>
     </Card>
   );

@@ -8,3 +8,7 @@ export default interface Pipeline {
   steps: stepId[];
   created_by: string;
 }
+
+export const checkPipelineType = (object: any): object is Pipeline => {
+  return 'name' in object && 'steps' in object && 'created_by' in object;
+};

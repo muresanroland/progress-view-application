@@ -3,3 +3,7 @@ export default interface User {
   username: string;
   avatar: string;
 }
+
+export const checkUserType = (object: any): object is User => {
+  return 'username' in object && 'avatar' in object;
+};

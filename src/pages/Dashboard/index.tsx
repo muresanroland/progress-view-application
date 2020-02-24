@@ -24,7 +24,7 @@ import './style.scss';
 
 interface DashboardProps {
   doGetPipelines: () => void;
-  pipelines: Pipeline[];
+  pipelineList: Pipeline[];
   isLoading: boolean;
 }
 
@@ -35,20 +35,20 @@ export class Dashboard extends Component<DashboardProps, DashboardState> {
     this.props.doGetPipelines();
   }
   render() {
-    const { pipelines, isLoading } = this.props;
-    console.log(pipelines);
-    let x;
-    if (pipelines.length) {
-      x = pipelines.map(pipeline => <PipelineCard key={pipeline.id} data={pipeline} />);
-    }
+    const { pipelineList, isLoading } = this.props;
     return (
       <>
         {isLoading ? (
           <LoadingSpinner />
         ) : (
-          <div className="container-dashboard">
+          <div className="container">
             <h1>Active pipelines</h1>
-            <div className="pipelines-container">{x}</div>
+            <div className="pipelines-container">
+              {pipelineList.length &&
+                pipelineList.map(pipeline => (
+                  <PipelineCard key={pipeline.id} data={pipeline} />
+                ))}
+            </div>
           </div>
         )}
       </>
@@ -57,7 +57,7 @@ export class Dashboard extends Component<DashboardProps, DashboardState> {
 }
 
 interface LinkStateProps {
-  pipelines: Pipeline[];
+  pipelineList: Pipeline[];
   isLoading: boolean;
 }
 
@@ -66,9 +66,8 @@ interface LinkDispatchProps {
 }
 
 const mapStateToProps = (state: AppState): LinkStateProps => {
-  console.log('some state: ', state);
   return {
-    pipelines: state.pipeline.pipelines,
+    pipelineList: state.pipeline.pipelineList,
     isLoading: state.loading.isLoading
   };
 };

@@ -19,7 +19,7 @@ import {
   LogoutAction
 } from '../types/actions';
 import { AppState } from '../store/index';
-import User from '../types/User';
+import User, { checkUserType } from '../types/User';
 
 /**
  * User action creators
@@ -39,9 +39,10 @@ export const logoutUser = (): LogoutAction => ({
 export const doLogin = (username: string) => {
   return (dispatch: Dispatch<AppActionTypes>, getState: () => AppState) => {
     dispatch(startLoading());
+    dispatch(error(''));
     userLoginService(username)
       .then(user => {
-        if (user) {
+        if (checkUserType(user)) {
           dispatch(loginUser(user));
           dispatch(stopLoading());
         } else {
@@ -50,9 +51,17 @@ export const doLogin = (username: string) => {
         }
       })
       .catch(error => {
-        console.log(error);
+        console.error(error);
         dispatch(error('Something went wrong'));
         dispatch(stopLoading());
       });
+  };
+};
+
+export const doLogout = () => {
+  return (dispatch: Dispatch<AppActionTypes>, getState: () => AppState) => {
+    localStorage.removeItem('currentUser');
+    dispatch(error(''));
+    dispatch(logoutUser());
   };
 };

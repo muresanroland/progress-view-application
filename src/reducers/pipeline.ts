@@ -1,4 +1,5 @@
 import Pipeline from '../types/Pipeline';
+import { GET_PIPELINE } from '../types/actions';
 import {
   PipelineActionType,
   GET_PIPELINES,
@@ -8,16 +9,18 @@ import {
 } from '../types/actions';
 
 interface initState {
-  pipelines: Pipeline[];
+  pipelineList: Pipeline[];
+  currentPipeline?: Pipeline;
+}
+
+interface returnValue {
+  pipelineList: Pipeline[];
+  currentPipeline?: Pipeline;
 }
 
 const initialState: initState = {
-  pipelines: []
+  pipelineList: []
 };
-
-interface returnValue {
-  pipelines: Pipeline[];
-}
 
 const pipelineReducer = (
   state = initialState,
@@ -27,19 +30,26 @@ const pipelineReducer = (
     case GET_PIPELINES: {
       return {
         ...state,
-        pipelines: action.payload
+        pipelineList: action.payload
+      };
+    }
+    case GET_PIPELINE: {
+      return {
+        ...state,
+        currentPipeline: action.payload
       };
     }
     case UPDATE_PIPELINE: {
       return {
         ...state,
-        pipelines: [action.payload]
+        currentPipeline: action.payload
       };
     }
     case CREATE_PIPELINE: {
       return {
         ...state,
-        pipelines: [...state.pipelines, action.payload]
+        pipelineList: [...state.pipelineList, action.payload],
+        currentPipeline: action.payload
       };
     }
     case DELETE_PIPELINE: {

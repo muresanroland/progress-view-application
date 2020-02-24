@@ -1,4 +1,5 @@
 import { Dispatch } from 'redux';
+import isEqual from 'react-fast-compare';
 /**
  * Actions
  */
@@ -9,6 +10,7 @@ import { error } from './error';
  */
 import {
   getAllPipelinesService,
+  getPipelineService,
   updatePipelineService,
   createPipelineService,
   deletePipelineService
@@ -17,8 +19,9 @@ import {
  * Types
  */
 import Pipeline from '../types/Pipeline';
-import { AppState } from '../store/index';
-import { AppActionTypes } from '../types/actions';
+import { AppState } from '../store';
+import { AppActionTypes, GetPipelineAction, GET_PIPELINE } from '../types/actions';
+import { checkPipelineType } from '../types/Pipeline';
 import {
   GET_PIPELINES,
   GetPipelinesAction,
@@ -38,7 +41,12 @@ const getPipelines = (pipelines: Pipeline[]): GetPipelinesAction => ({
   payload: pipelines
 });
 
-const updatePipelineAction = (pipeline: Pipeline): UpdatePipelineAction => ({
+const getPipeline = (pipeline: Pipeline): GetPipelineAction => ({
+  type: GET_PIPELINE,
+  payload: pipeline
+});
+
+const updatePipeline = (pipeline: Pipeline): UpdatePipelineAction => ({
   type: UPDATE_PIPELINE,
   payload: pipeline
 });
@@ -58,9 +66,10 @@ const deletePipeline = (): DeletePipeLine => ({
 export const doGetPipelines = () => {
   return (dispatch: Dispatch<AppActionTypes>, getState: () => AppState) => {
     dispatch(startLoading());
+    dispatch(error(''));
     const username = getState().login.currentUser.username;
     getAllPipelinesService(username)
-      .then((pipelines: Pipeline[]) => {
+      .then(pipelines => {
         if (pipelines.length) {
           dispatch(getPipelines(pipelines));
           dispatch(stopLoading());
@@ -69,9 +78,52 @@ export const doGetPipelines = () => {
           dispatch(stopLoading());
         }
       })
-      .catch((err: any) => {
+      .catch(err => {
         console.error(err);
         dispatch(error('Somethig went wrong'));
+        dispatch(stopLoading());
+      });
+  };
+};
+
+export const doGetAllPipeline = (id: number) => {
+  return (dispatch: Dispatch<AppActionTypes>, getState: () => AppState) => {
+    dispatch(startLoading());
+    dispatch(error(''));
+    getPipelineService(id)
+      .then(pipeline => {
+        if (checkPipelineType(pipeline)) {
+          dispatch(getPipeline(pipeline));
+          dispatch(stopLoading());
+        } else {
+          dispatch(error('Pipeline not found'));
+          dispatch(stopLoading());
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        dispatch(error('Something went wrong'));
+        dispatch(stopLoading());
+      });
+  };
+};
+
+export const doUpdatePipeline = (pipeline: Pipeline) => {
+  return (dispatch: Dispatch<AppActionTypes>, getState: () => AppState) => {
+    dispatch(startLoading());
+    dispatch(error(''));
+    updatePipelineService(pipeline)
+      .then(responseData => {
+        if (checkPipelineType(pipeline) && isEqual(responseData, pipeline)) {
+          doGetPipelines();
+        } else {
+          dispatch(error('Pipeline not updated'));
+          dispatch(stopLoading());
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        dispatch(error('Something went wrong'));
         dispatch(stopLoading());
       });
   };

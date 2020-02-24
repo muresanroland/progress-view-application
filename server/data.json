@@ -937,7 +937,7 @@
       "id": 10,
       "name": "customer feedback",
       "assigned_to": "user2",
-      "status": "Pending"
+      "status": "Completed"
     },
     {
       "id": 11,
@@ -973,7 +973,7 @@
       "id": 16,
       "name": "quality assurance",
       "assigned_to": "user2",
-      "status": "Pending"
+      "status": "Completed"
     },
     {
       "id": 17,
@@ -985,7 +985,7 @@
       "id": 18,
       "name": "quality assurance",
       "assigned_to": "user1",
-      "status": "Pending"
+      "status": "Completed"
     },
     {
       "id": 19,

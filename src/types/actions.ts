@@ -10,6 +10,7 @@ export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 
 export const GET_PIPELINES = 'GET_PIPELINES';
+export const GET_PIPELINE = 'GET_PIPELINE';
 export const CREATE_PIPELINE = 'CREATE_PIPELINE';
 export const UPDATE_PIPELINE = 'UPDATE_PIPELINE';
 export const DELETE_PIPELINE = 'DELETE_PIPELINE';
@@ -45,6 +46,11 @@ export interface GetPipelinesAction {
   payload: Pipeline[];
 }
 
+export interface GetPipelineAction {
+  type: typeof GET_PIPELINE;
+  payload: Pipeline;
+}
+
 export interface CreatePipelineAction {
   type: typeof CREATE_PIPELINE;
   payload: Pipeline;
@@ -76,7 +82,7 @@ export interface GetTasksAction {
 
 export interface UpdateTaskAction {
   type: typeof UPDATE_TASK;
-  payload: Task;
+  payload: Task[];
 }
 
 export interface Error {
@@ -90,6 +96,7 @@ export type LoadingActionType = StartLoadingAction | StopLoadingAction;
 
 export type PipelineActionType =
   | GetPipelinesAction
+  | GetPipelineAction
   | CreatePipelineAction
   | UpdatePipelineAction
   | DeletePipeLine;
