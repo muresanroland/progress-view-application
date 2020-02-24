@@ -7,7 +7,11 @@ import {
   DELETE_PIPELINE
 } from '../types/actions';
 
-const initialState = {
+interface initState {
+  pipelines: Pipeline[];
+}
+
+const initialState: initState = {
   pipelines: []
 };
 
@@ -44,7 +48,9 @@ const pipelineReducer = (
       };
     }
     default:
-      return state;
+      return {
+        ...state
+      };
   }
 };
 

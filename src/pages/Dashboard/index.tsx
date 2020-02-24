@@ -37,6 +37,10 @@ export class Dashboard extends Component<DashboardProps, DashboardState> {
   render() {
     const { pipelines, isLoading } = this.props;
     console.log(pipelines);
+    let x;
+    if (pipelines.length) {
+      x = pipelines.map(pipeline => <PipelineCard key={pipeline.id} data={pipeline} />);
+    }
     return (
       <>
         {isLoading ? (
@@ -44,11 +48,7 @@ export class Dashboard extends Component<DashboardProps, DashboardState> {
         ) : (
           <div className="container-dashboard">
             <h1>Active pipelines</h1>
-            <div className="pipelines-container">
-              {pipelines.map(pipeline => (
-                <PipelineCard key={pipeline.id} data={pipeline} />
-              ))}
-            </div>
+            <div className="pipelines-container">{x}</div>
           </div>
         )}
       </>

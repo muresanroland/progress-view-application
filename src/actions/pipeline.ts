@@ -69,8 +69,8 @@ export const doGetPipelines = () => {
           dispatch(stopLoading());
         }
       })
-      .catch(error => {
-        console.error(error);
+      .catch((err: any) => {
+        console.error(err);
         dispatch(error('Somethig went wrong'));
         dispatch(stopLoading());
       });
