@@ -62,22 +62,18 @@ export const doGetAllTasks = () => {
 
 export const doUpdateTask = (task: Task) => {
   return (dispatch: Dispatch<AppActionTypes>, getState: () => AppState) => {
-    dispatch(startLoading());
     dispatch(error(''));
     updateTaskService(task)
       .then(responseData => {
         if (checkTaskType(responseData) && isEqual(responseData, task)) {
           dispatch(updateTask(responseData));
-          dispatch(stopLoading());
         } else {
           dispatch(error('Task not updated'));
-          dispatch(stopLoading());
         }
       })
       .catch(err => {
         console.error(err);
         dispatch(error('Somethig went wrong'));
-        dispatch(stopLoading());
       });
   };
 };
